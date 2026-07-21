@@ -1,0 +1,21 @@
+# docx-master 依赖文件
+# 
+# 安装命令：pip install -r requirements.txt
+
+# 核心依赖
+python-docx>=0.8.11
+requests>=2.28.0
+
+# 可选依赖（用于增强功能）
+# 如果需要处理PDF文件，取消注释以下行
+# pdf2docx>=0.5.6
+
+# 如果需要处理图片，取消注释以下行
+# Pillow>=9.0.0
+
+# 如果需要处理Excel文件，取消注释以下行
+# openpyxl>=3.0.10
+
+# 开发和测试依赖
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
