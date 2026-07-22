@@ -23,6 +23,9 @@
 - **🎨 格式控制** - 精确控制字体、段落、页面格式
 - **📐 样式管理** - 创建、修改、应用自定义样式
 - **🤖 AI集成** - 集成DeepSeek API，提供智能分析和优化
+- **✅ 文档验证** - 验证文档结构、格式，自动修复问题
+- **📑 目录生成** - 自动生成和更新目录
+- **📝 占位符填充** - 查找和填充文档中的占位符
 
 ### 🎨 格式控制
 - **🔤 字体设置** - 中英文字体、字号、颜色、加粗、斜体等
@@ -285,6 +288,68 @@ analysis = doc_manager.analyze_document(use_ai=True)
 print(analysis)
 ```
 
+### 5. ✅ 验证文档
+
+```python
+from core.document import DocumentManager
+from core.validation import DocumentValidator
+
+# 打开文档
+doc_manager = DocumentManager()
+doc_manager.open_document("input.docx")
+
+# 验证文档
+validator = DocumentValidator(doc_manager.document)
+structure_result = validator.validate_structure()
+formatting_result = validator.validate_formatting()
+
+print(f"结构验证: {structure_result['valid']}")
+print(f"格式验证: {formatting_result['valid']}")
+```
+
+### 6. 📑 生成目录
+
+```python
+from core.document import DocumentManager
+from core.toc import TableOfContents
+
+# 打开文档
+doc_manager = DocumentManager()
+doc_manager.open_document("input.docx")
+
+# 生成目录
+toc = TableOfContents(doc_manager.document)
+toc.generate(title="目录", max_level=3)
+
+# 保存文档
+doc_manager.save_document("output_with_toc.docx")
+```
+
+### 7. 📝 填充占位符
+
+```python
+from core.document import DocumentManager
+from core.placeholder import PlaceholderFiller
+
+# 打开文档
+doc_manager = DocumentManager()
+doc_manager.open_document("template.docx")
+
+# 填充占位符
+filler = PlaceholderFiller(doc_manager.document)
+data = {
+    "name": "张三",
+    "date": "2026年7月21日",
+    "company": "XXX公司"
+}
+result = filler.fill(data)
+
+print(f"已填充: {len(result['filled'])} 个占位符")
+
+# 保存文档
+doc_manager.save_document("output.docx")
+```
+
 ---
 
 ## 🧩 核心模块
@@ -328,6 +393,28 @@ AI集成类，提供AI功能：
 - `translate_formatting()` - 转换格式规则
 - `apply_format_by_analysis()` - 根据分析结果应用格式
 - `analyze_and_apply_format()` - 分析并自动应用格式
+
+### ✅ DocumentValidator
+文档验证器，提供验证功能：
+- `validate_structure()` - 验证文档结构
+- `validate_formatting()` - 验证文档格式
+- `validate_for_official_document()` - 验证公文格式
+- `auto_fix()` - 自动修复问题
+
+### 📑 TableOfContents
+目录生成器：
+- `generate()` - 生成目录
+- `update()` - 更新目录
+- `add_toc_entry()` - 添加目录条目
+- `extract_headings()` - 提取文档标题
+- `generate_simple_toc()` - 生成简单目录文本
+
+### 📝 PlaceholderFiller
+占位符填充器：
+- `find_placeholders()` - 查找占位符
+- `fill()` - 填充占位符
+- `fill_from_json()` - 从JSON文件填充
+- `replace_text()` - 替换文本
 
 ---
 

@@ -20,6 +20,9 @@ metadata:
 - **🎨 Format Control**: Precisely control fonts, paragraphs, page formats
 - **📐 Style Management**: Create, modify, apply custom styles
 - **🤖 AI Integration**: Integrate DeepSeek API for intelligent analysis and optimization
+- **✅ Document Validation**: Validate document structure, formatting, and auto-fix issues
+- **📑 Table of Contents**: Auto-generate and update table of contents
+- **📝 Placeholder Filling**: Find and fill placeholders in documents
 
 ### 🎨 Format Control
 - **🔤 Font settings**: Chinese and English fonts, font size, color, bold, italic, etc.
@@ -281,6 +284,68 @@ analysis = doc_manager.analyze_document(use_ai=True)
 print(analysis)
 ```
 
+### 5. ✅ Validate Document
+
+```python
+from core.document import DocumentManager
+from core.validation import DocumentValidator
+
+# Open document
+doc_manager = DocumentManager()
+doc_manager.open_document("input.docx")
+
+# Validate document
+validator = DocumentValidator(doc_manager.document)
+structure_result = validator.validate_structure()
+formatting_result = validator.validate_formatting()
+
+print(f"Structure valid: {structure_result['valid']}")
+print(f"Formatting valid: {formatting_result['valid']}")
+```
+
+### 6. 📑 Generate Table of Contents
+
+```python
+from core.document import DocumentManager
+from core.toc import TableOfContents
+
+# Open document
+doc_manager = DocumentManager()
+doc_manager.open_document("input.docx")
+
+# Generate TOC
+toc = TableOfContents(doc_manager.document)
+toc.generate(title="目录", max_level=3)
+
+# Save document
+doc_manager.save_document("output_with_toc.docx")
+```
+
+### 7. 📝 Fill Placeholders
+
+```python
+from core.document import DocumentManager
+from core.placeholder import PlaceholderFiller
+
+# Open document
+doc_manager = DocumentManager()
+doc_manager.open_document("template.docx")
+
+# Fill placeholders
+filler = PlaceholderFiller(doc_manager.document)
+data = {
+    "name": "张三",
+    "date": "2026年7月21日",
+    "company": "XXX公司"
+}
+result = filler.fill(data)
+
+print(f"Filled: {len(result['filled'])} placeholders")
+
+# Save document
+doc_manager.save_document("output.docx")
+```
+
 ## 🧩 Core Modules
 
 ### 📄 DocumentManager
@@ -322,6 +387,28 @@ AI integration class, provides AI functions:
 - `translate_formatting()`: Convert format rules
 - `apply_format_by_analysis()`: Apply format based on analysis
 - `analyze_and_apply_format()`: Analyze and apply format automatically
+
+### ✅ DocumentValidator
+Document validator, provides validation functions:
+- `validate_structure()`: Validate document structure
+- `validate_formatting()`: Validate document formatting
+- `validate_for_official_document()`: Validate official document format
+- `auto_fix()`: Auto-fix document issues
+
+### 📑 TableOfContents
+Table of contents generator:
+- `generate()`: Generate table of contents
+- `update()`: Update table of contents
+- `add_toc_entry()`: Add TOC entry
+- `extract_headings()`: Extract document headings
+- `generate_simple_toc()`: Generate simple TOC text
+
+### 📝 PlaceholderFiller
+Placeholder filler:
+- `find_placeholders()`: Find placeholders in document
+- `fill()`: Fill placeholders with data
+- `fill_from_json()`: Fill placeholders from JSON file
+- `replace_text()`: Replace text in document
 
 ## 📜 Official Document Format Example (公文格式)
 
