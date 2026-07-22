@@ -141,16 +141,48 @@ class FormattingManager:
                     pPr.append(spacing)
                 spacing.set(qn('w:lineRule'), 'atLeast')
             
-        # 段前段后间距（默认为0）
+        # 段前段后间距（默认为0行）
         if space_before is not None:
-            paragraph.paragraph_format.space_before = Pt(space_before)
+            # 使用行单位（1行 = 240 DXA，约12pt）
+            pPr = paragraph._element.get_or_add_pPr()
+            spacing = pPr.find(qn('w:spacing'))
+            if spacing is None:
+                spacing = OxmlElement('w:spacing')
+                pPr.append(spacing)
+            # 设置段前间距（行单位）
+            spacing.set(qn('w:beforeLines'), str(int(space_before * 100)))
+            # 同时设置DXA单位作为备用
+            spacing.set(qn('w:before'), str(int(space_before * 240)))
         else:
-            paragraph.paragraph_format.space_before = Pt(0)  # 默认0磅
+            # 默认0行
+            pPr = paragraph._element.get_or_add_pPr()
+            spacing = pPr.find(qn('w:spacing'))
+            if spacing is None:
+                spacing = OxmlElement('w:spacing')
+                pPr.append(spacing)
+            spacing.set(qn('w:beforeLines'), '0')
+            spacing.set(qn('w:before'), '0')
             
         if space_after is not None:
-            paragraph.paragraph_format.space_after = Pt(space_after)
+            # 使用行单位（1行 = 240 DXA，约12pt）
+            pPr = paragraph._element.get_or_add_pPr()
+            spacing = pPr.find(qn('w:spacing'))
+            if spacing is None:
+                spacing = OxmlElement('w:spacing')
+                pPr.append(spacing)
+            # 设置段后间距（行单位）
+            spacing.set(qn('w:afterLines'), str(int(space_after * 100)))
+            # 同时设置DXA单位作为备用
+            spacing.set(qn('w:after'), str(int(space_after * 240)))
         else:
-            paragraph.paragraph_format.space_after = Pt(0)  # 默认0磅
+            # 默认0行
+            pPr = paragraph._element.get_or_add_pPr()
+            spacing = pPr.find(qn('w:spacing'))
+            if spacing is None:
+                spacing = OxmlElement('w:spacing')
+                pPr.append(spacing)
+            spacing.set(qn('w:afterLines'), '0')
+            spacing.set(qn('w:after'), '0')
             
         # 首行缩进：优先使用字符单位
         if first_line_indent_chars is not None:
