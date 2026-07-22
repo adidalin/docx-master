@@ -28,7 +28,8 @@ class FormattingManager:
     def set_font(self, run, font_name: Optional[str] = None, 
                  font_size: Optional[int] = None, bold: Optional[bool] = None,
                  italic: Optional[bool] = None, color: Optional[str] = None,
-                 underline: Optional[bool] = None, strikethrough: Optional[bool] = None):
+                 underline: Optional[bool] = None, strikethrough: Optional[bool] = None,
+                 superscript: Optional[bool] = None, subscript: Optional[bool] = None):
         """
         设置字体格式
         
@@ -41,6 +42,8 @@ class FormattingManager:
             color: 颜色（十六进制）
             underline: 是否下划线
             strikethrough: 是否删除线
+            superscript: 是否上标
+            subscript: 是否下标
         """
         if font_name:
             run.font.name = font_name
@@ -66,6 +69,12 @@ class FormattingManager:
             
         if strikethrough is not None:
             run.font.strikethrough = strikethrough
+            
+        if superscript is not None:
+            run.font.superscript = superscript
+            
+        if subscript is not None:
+            run.font.subscript = subscript
     
     def set_paragraph_format(self, paragraph, alignment: Optional[str] = None,
                             line_spacing: Optional[float] = None,

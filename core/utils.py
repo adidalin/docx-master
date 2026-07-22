@@ -44,7 +44,53 @@ class Utils:
         # 处理非自然回车（保留段落间的回车）
         text = re.sub(r'([^\n])\n([^\n])', r'\1\2', text)
         
+        # 替换英文引号为中文引号
+        text = Utils.replace_quotes_to_chinese(text)
+        
         return text.strip()
+    
+    @staticmethod
+    def replace_quotes_to_chinese(text: str) -> str:
+        """
+        替换英文引号为中文引号
+        
+        Args:
+            text: 原始文本
+            
+        Returns:
+            替换后的文本
+        """
+        if not text:
+            return text
+        
+        # 替换双引号
+        text = text.replace('"', '\u201c')  # 左双引号 "
+        text = text.replace('"', '\u201d')  # 右双引号 "
+        
+        # 替换单引号
+        text = text.replace("'", '\u2018')  # 左单引号 '
+        text = text.replace("'", '\u2019')  # 右单引号 '
+        
+        # 替换括号
+        text = text.replace('(', '（')
+        text = text.replace(')', '）')
+        
+        # 替换冒号
+        text = text.replace(':', '：')
+        
+        # 替换分号
+        text = text.replace(';', '；')
+        
+        # 替换逗号
+        text = text.replace(',', '，')
+        
+        # 替换句号
+        text = text.replace('.', '。')
+        
+        # 替换顿号
+        text = text.replace(',', '、')
+        
+        return text
     
     @staticmethod
     def extract_paragraph_info(paragraph) -> Dict[str, Any]:
